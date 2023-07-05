@@ -1,0 +1,8 @@
+
+# Keep environment variables out of version control
+dist
+node_modules
+.env*
+!.env.example
+yarn.lock
+.vscode
