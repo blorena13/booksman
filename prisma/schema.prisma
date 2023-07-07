@@ -16,4 +16,6 @@ model Books {
   read         Boolean  @default(false)
   grade        Int?
   review       String?
+
+  @@map("books")
 }

@@ -1,4 +1,4 @@
-import { Book, CreateBook } from "../protocols/book";
+import { CreateBook } from "../protocols/book";
 import { CreateReview } from "../protocols/review";
 
 import { Books } from "@prisma/client";
@@ -16,33 +16,25 @@ export async function getBook(id: number) {
 }
 
 export async function createBook(book: CreateBook) {
-  const { title, author, publisher, purchaseDate } = book;
-
   const createdBook = await prisma.books.create({
-    data: {
-      title,
-      author,
-      publisher,
-      purchaseDate
-    }
+    data: {...book, purchaseDate: new Date(book.purchaseDate)}
   })
 
   return createdBook;
 }
 
 
-export async function reviewBook(id: number ,bookReview: CreateReview) {
-  const { bookId, grade, review } = bookReview;
-  
+export async function reviewBook(bookReview: CreateReview) {
   const updatedBook = await prisma.books.update({
-    where: {
-      id: id
-    },
-    data: {
-      grade,
-      review,
-      read: true
-    }
+    data: 
+      {
+        review: bookReview.review,
+        grade: bookReview.grade,
+        read: true
+      },
+      where:{
+        id: bookReview.bookId
+      }
   }) 
   return updatedBook;
 }
